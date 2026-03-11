@@ -1,4 +1,4 @@
-package com.johannjara.docvault.ui.theme
+package com.johannjara.docvault.design.theme
 
 import androidx.compose.ui.graphics.Color
 
