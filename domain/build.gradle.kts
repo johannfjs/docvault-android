@@ -7,4 +7,6 @@ kotlin {
 }
 
 dependencies {
+    testImplementation(libs.junit)
+    testImplementation(libs.kluent)
 }
