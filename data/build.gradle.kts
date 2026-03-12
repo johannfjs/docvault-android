@@ -23,6 +23,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":domain"))
     implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     
@@ -37,4 +38,9 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kluent)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.core)
 }
