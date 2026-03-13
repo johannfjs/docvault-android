@@ -1,4 +1,4 @@
-package com.johannjara.docvault.core.di
+package com.johannjara.docvault.di
 
 import android.content.Context
 import com.johannjara.docvault.core.security.FileEncryptor

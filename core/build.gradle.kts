@@ -43,7 +43,7 @@ kotlin {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.tink.android)
+    api(libs.tink.android)
     
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -52,8 +52,8 @@ dependencies {
     implementation(libs.androidx.biometric)
 
     // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.dagger.hilt.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.kluent)
