@@ -3,6 +3,7 @@ package com.johannjara.docvault.core.security
 import android.content.Context
 import com.google.crypto.tink.Aead
 import com.google.crypto.tink.KeyTemplates
+import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
 import java.io.ByteArrayOutputStream
@@ -15,20 +16,24 @@ interface FileEncryptor {
     fun getEncryptedInputStream(file: File): InputStream
 }
 
-class FileEncryptorImpl(private val context: Context) : FileEncryptor {
+class FileEncryptorImpl(
+    private val context: Context,
+    private val keysetHandle: KeysetHandle? = null
+) : FileEncryptor {
 
     init {
         AeadConfig.register()
     }
 
     private val aead: Aead by lazy {
-        AndroidKeysetManager.Builder()
+        val handle = keysetHandle ?: AndroidKeysetManager.Builder()
             .withSharedPref(context, KEYSET_NAME, PREF_FILE_NAME)
             .withKeyTemplate(KeyTemplates.get("AES256_GCM"))
             .withMasterKeyUri(MASTER_KEY_URI)
             .build()
             .keysetHandle
-            .getPrimitive(Aead::class.java)
+        
+        handle.getPrimitive(Aead::class.java)
     }
 
     override fun getEncryptedOutputStream(file: File): OutputStream {
