@@ -1,6 +1,8 @@
 package com.johannjara.docvault.di
 
 import android.content.Context
+import com.johannjara.docvault.core.location.LocationProvider
+import com.johannjara.docvault.core.location.LocationProviderImpl
 import com.johannjara.docvault.core.security.FileEncryptor
 import com.johannjara.docvault.core.security.FileEncryptorImpl
 import com.johannjara.docvault.core.storage.FileStorageHelper
@@ -36,5 +38,11 @@ object CoreModule {
         dispatcher: CoroutineDispatcher
     ): FileStorageHelper {
         return FileStorageHelperImpl(context, fileEncryptor, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationProvider(@ApplicationContext context: Context): LocationProvider {
+        return LocationProviderImpl(context)
     }
 }
