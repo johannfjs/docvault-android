@@ -5,5 +5,7 @@ data class Document(
     val name: String,
     val path: String,
     val type: DocumentType,
-    val createdAt: Long
+    val createdAt: Long,
+    val locationName: String? = null,
+    val accessLogs: List<Long> = emptyList()
 )

@@ -15,6 +15,8 @@ interface DocumentDao {
     @Query("SELECT * FROM documents WHERE type = :type")
     fun getDocumentsByType(type: String): Flow<List<DocumentEntity>>
 
+    @Query("SELECT * FROM documents WHERE id = :id")
+    suspend fun getDocumentById(id: String): DocumentEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDocument(document: DocumentEntity)
-}
+    suspend fun insertDocument(document: DocumentEntity)}

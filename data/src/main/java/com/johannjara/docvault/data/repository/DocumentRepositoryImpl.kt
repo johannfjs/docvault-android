@@ -37,4 +37,8 @@ class DocumentRepositoryImpl @Inject constructor(
             documentDao.insertDocument(DocumentEntity.fromDomain(encryptedDocument))
         } ?: throw Exception("Failed to encrypt and save file")
     }
+
+    override suspend fun getDocumentById(id: String): Document? {
+        return documentDao.getDocumentById(id)?.toDomain()
+    }
 }

@@ -11,14 +11,18 @@ data class DocumentEntity(
     val name: String,
     val path: String,
     val type: String,
-    val createdAt: Long
+    val createdAt: Long,
+    val locationName: String?,
+    val accessLogs: List<Long>
 ) {
     fun toDomain() = Document(
         id = id,
         name = name,
         path = path,
         type = DocumentType.valueOf(type),
-        createdAt = createdAt
+        createdAt = createdAt,
+        locationName = locationName,
+        accessLogs = accessLogs
     )
 
     companion object {
@@ -27,7 +31,9 @@ data class DocumentEntity(
             name = document.name,
             path = document.path,
             type = document.type.name,
-            createdAt = document.createdAt
+            createdAt = document.createdAt,
+            locationName = document.locationName,
+            accessLogs = document.accessLogs
         )
     }
 }
