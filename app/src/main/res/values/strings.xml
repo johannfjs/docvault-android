@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">DocVault</string>
+    <string name="detail_title">Detalle</string>
+    <string name="back_content_description">Regresar</string>
+    <string name="unexpected_error">Ocurrió un error inesperado</string>
+    <string name="requesting_location_permission">Solicitando permisos de ubicación...</string>
+    <string name="waiting_authentication">Esperando autenticación...</string>
+    <string name="error_processing_image">Error al procesar la imagen</string>
+    <string name="test_document_name">Documento de prueba</string>
+    <string name="access_logs_content_description">Registros de acceso</string>
+    <string name="access_logs_title">Registros de Acceso</string>
+    <string name="close_button">Cerrar</string>
+    <string name="no_access_logs">No hay registros de acceso disponibles</string>
 </resources>

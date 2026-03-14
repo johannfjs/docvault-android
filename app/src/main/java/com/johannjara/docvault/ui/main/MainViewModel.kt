@@ -62,7 +62,12 @@ class MainViewModel @Inject constructor(
 
     fun onAddDocument(context: Context, uri: Uri, name: String, type: DocumentTypeUI) {
         viewModelScope.launch {
-            val internalUri = copyFileToInternalStorage(context, uri, name, type)
+            val internalUri = copyFileToInternalStorage(
+                context = context,
+                uri = uri,
+                name = name,
+                type = type
+            )
             val document = Document(
                 id = UUID.randomUUID().toString(),
                 name = name,

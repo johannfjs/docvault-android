@@ -1,4 +1,4 @@
-package com.johannjara.docvault.util
+package com.johannjara.docvault.core.util
 
 import android.Manifest
 import android.content.Context
@@ -9,6 +9,11 @@ import androidx.core.content.ContextCompat
 object PermissionUtils {
 
     fun getCameraPermissions(): Array<String> = arrayOf(Manifest.permission.CAMERA)
+
+    fun getLocationPermissions(): Array<String> = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
     fun getStoragePermissions(): Array<String> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -23,6 +28,10 @@ object PermissionUtils {
 
     fun hasCameraPermission(context: Context): Boolean {
         return hasPermissions(context, getCameraPermissions())
+    }
+
+    fun hasLocationPermission(context: Context): Boolean {
+        return hasPermissions(context, getLocationPermissions())
     }
 
     fun hasPermissions(context: Context, permissions: Array<String>): Boolean {

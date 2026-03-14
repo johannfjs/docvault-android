@@ -1,5 +1,6 @@
 package com.johannjara.docvault.data.repository
 
+import com.johannjara.docvault.core.security.FileEncryptor
 import com.johannjara.docvault.core.storage.FileStorageHelper
 import com.johannjara.docvault.data.local.dao.DocumentDao
 import com.johannjara.docvault.data.local.entity.DocumentEntity
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Assert.assertArrayEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,11 +26,12 @@ class DocumentRepositoryImplTest {
 
     private val documentDao: DocumentDao = mockk()
     private val fileStorageHelper: FileStorageHelper = mockk()
+    private val fileEncryptor: FileEncryptor = mockk()
     private lateinit var repository: DocumentRepositoryImpl
 
     @Before
     fun setup() {
-        repository = DocumentRepositoryImpl(documentDao, fileStorageHelper)
+        repository = DocumentRepositoryImpl(documentDao, fileStorageHelper, fileEncryptor)
     }
 
     @Test
@@ -39,14 +42,16 @@ class DocumentRepositoryImplTest {
                 name = "Doc 1",
                 path = "/path/1",
                 type = "PDF",
-                createdAt = 123L
+                createdAt = 123L,
+                accessLogs = emptyList()
             ),
             DocumentEntity(
                 id = "2",
                 name = "Doc 2",
                 path = "/path/2",
                 type = "IMAGE",
-                createdAt = 456L
+                createdAt = 456L,
+                accessLogs = emptyList()
             )
         )
         every { documentDao.getAllDocuments() } returns flowOf(entities)
@@ -70,17 +75,20 @@ class DocumentRepositoryImplTest {
             name = fileName,
             path = originalPath,
             type = DocumentType.IMAGE,
-            createdAt = 123L
+            createdAt = 123L,
+            accessLogs = emptyList()
         )
 
         val secureFile = mockk<File>()
         every { secureFile.absolutePath } returns securePath
 
+        coEvery { documentDao.getDocumentById(document.id) } returns null
         coEvery { fileStorageHelper.saveAndEncryptFile(any(), fileName) } returns secureFile
         coEvery { documentDao.insertDocument(any()) } returns Unit
 
         repository.saveDocument(document)
 
+        coVerify { documentDao.getDocumentById(document.id) }
         coVerify { fileStorageHelper.saveAndEncryptFile(any(), fileName) }
         coVerify {
             documentDao.insertDocument(withArg {
@@ -98,10 +106,28 @@ class DocumentRepositoryImplTest {
             name = "name",
             path = "path",
             type = DocumentType.PDF,
-            createdAt = 123L
+            createdAt = 123L,
+            accessLogs = emptyList()
         )
+        coEvery { documentDao.getDocumentById(document.id) } returns null
         coEvery { fileStorageHelper.saveAndEncryptFile(any(), any()) } returns null
 
         repository.saveDocument(document)
+    }
+
+    @Test
+    fun `getDocumentContent should decrypt file and return bytes`() = runTest {
+        val content = "hello world".toByteArray()
+        
+        val inputStream = content.inputStream()
+        every { fileEncryptor.getEncryptedInputStream(any()) } returns inputStream
+        
+        val tempFile = File.createTempFile("test", "txt")
+        tempFile.deleteOnExit()
+        
+        val result = repository.getDocumentContent(tempFile.absolutePath)
+        
+        result.isSuccess shouldBeEqualTo true
+        assertArrayEquals(content, result.getOrNull())
     }
 }

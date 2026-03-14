@@ -47,9 +47,13 @@ dependencies {
     
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // Biometric
     implementation(libs.androidx.biometric)
+
+    // Location
+    implementation(libs.play.services.location)
 
     // Hilt
     implementation(libs.dagger.hilt.android)

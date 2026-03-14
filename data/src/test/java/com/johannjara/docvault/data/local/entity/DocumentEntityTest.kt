@@ -14,7 +14,8 @@ class DocumentEntityTest {
             name = "test.pdf",
             path = "/path",
             type = "PDF",
-            createdAt = 123L
+            createdAt = 123L,
+            accessLogs = listOf(100L, 200L)
         )
 
         val domain = entity.toDomain()
@@ -24,6 +25,7 @@ class DocumentEntityTest {
         domain.path shouldBeEqualTo entity.path
         domain.type shouldBeEqualTo DocumentType.PDF
         domain.createdAt shouldBeEqualTo entity.createdAt
+        domain.accessLogs shouldBeEqualTo entity.accessLogs
     }
 
     @Test
@@ -33,7 +35,8 @@ class DocumentEntityTest {
             name = "test.pdf",
             path = "/path",
             type = DocumentType.IMAGE,
-            createdAt = 123L
+            createdAt = 123L,
+            accessLogs = listOf(100L, 200L)
         )
 
         val entity = DocumentEntity.fromDomain(domain)
@@ -43,5 +46,6 @@ class DocumentEntityTest {
         entity.path shouldBeEqualTo domain.path
         entity.type shouldBeEqualTo "IMAGE"
         entity.createdAt shouldBeEqualTo domain.createdAt
+        entity.accessLogs shouldBeEqualTo domain.accessLogs
     }
 }

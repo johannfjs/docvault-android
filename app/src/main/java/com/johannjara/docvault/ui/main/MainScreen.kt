@@ -20,16 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.johannjara.docvault.R
+import com.johannjara.docvault.core.util.PermissionUtils
 import com.johannjara.docvault.design.components.AddDocumentFab
 import com.johannjara.docvault.design.components.DocumentFilter
 import com.johannjara.docvault.design.components.DocumentItem
 import com.johannjara.docvault.design.model.DocumentTypeUI
 import com.johannjara.docvault.design.model.DocumentUI
+import com.johannjara.docvault.design.model.ImmutableList
 import com.johannjara.docvault.design.theme.DocVaultTheme
-import com.johannjara.docvault.util.PermissionUtils
+import com.johannjara.docvault.design.theme.LocalSpacing
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +38,8 @@ import java.io.File
 fun MainScreen(
     state: MainState,
     onTypeFilterSelected: (DocumentTypeUI?) -> Unit,
-    onAddDocument: (Uri, String, DocumentTypeUI) -> Unit
+    onAddDocument: (Uri, String, DocumentTypeUI) -> Unit,
+    onDocumentClick: (String) -> Unit
 ) {
     val context = LocalContext.current
     var tempPhotoUri by remember { mutableStateOf<Uri?>(null) }
@@ -130,7 +132,8 @@ fun MainScreen(
         MainContent(
             modifier = Modifier.padding(paddingValues),
             state = state,
-            onTypeFilterSelected = onTypeFilterSelected
+            onTypeFilterSelected = onTypeFilterSelected,
+            onDocumentClick = onDocumentClick
         )
     }
 }
@@ -139,7 +142,8 @@ fun MainScreen(
 private fun MainContent(
     modifier: Modifier = Modifier,
     state: MainState,
-    onTypeFilterSelected: (DocumentTypeUI?) -> Unit
+    onTypeFilterSelected: (DocumentTypeUI?) -> Unit,
+    onDocumentClick: (String) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -152,7 +156,10 @@ private fun MainContent(
         if (state.isLoading) {
             LoadingIndicator()
         } else {
-            DocumentList(documents = state.documents)
+            DocumentList(
+                documents = state.documents,
+                onDocumentClick = onDocumentClick
+            )
         }
     }
 }
@@ -169,11 +176,13 @@ private fun LoadingIndicator() {
 
 @Composable
 private fun DocumentList(
-    documents: List<DocumentUI>
+    documents: List<DocumentUI>,
+    onDocumentClick: (String) -> Unit
 ) {
+    val spacing = LocalSpacing.current
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(spacing.medium)
     ) {
         items(
             items = documents,
@@ -181,7 +190,7 @@ private fun DocumentList(
         ) { document ->
             DocumentItem(
                 document = document,
-                onClick = { }
+                onClick = { onDocumentClick(document.id) }
             )
         }
     }
@@ -194,12 +203,27 @@ private fun MainScreenPreview() {
         MainScreen(
             state = MainState(
                 documents = listOf(
-                    DocumentUI("1", "Documento 1", DocumentTypeUI.PDF, "10/10/2023", ""),
-                    DocumentUI("2", "Imagen 1", DocumentTypeUI.IMAGE, "11/10/2023", "")
+                    DocumentUI(
+                        id = "1",
+                        name = "Documento 1",
+                        type = DocumentTypeUI.PDF,
+                        createdAtFormatted = "10/10/2023",
+                        path = "",
+                        accessLogs = ImmutableList(emptyList())
+                    ),
+                    DocumentUI(
+                        id = "2",
+                        name = "Imagen 1",
+                        type = DocumentTypeUI.IMAGE,
+                        createdAtFormatted = "11/10/2023",
+                        path = "",
+                        accessLogs = ImmutableList(emptyList())
+                    )
                 )
             ),
             onTypeFilterSelected = {},
-            onAddDocument = { _, _, _ -> }
+            onAddDocument = { _, _, _ -> },
+            onDocumentClick = {}
         )
     }
 }
@@ -211,7 +235,8 @@ private fun MainScreenLoadingPreview() {
         MainScreen(
             state = MainState(isLoading = true),
             onTypeFilterSelected = {},
-            onAddDocument = { _, _, _ -> }
+            onAddDocument = { _, _, _ -> },
+            onDocumentClick = {}
         )
     }
 }

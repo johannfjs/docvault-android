@@ -14,5 +14,6 @@ data class DocumentUI(
     val name: String,
     val type: DocumentTypeUI,
     val createdAtFormatted: String,
-    val path: String
+    val path: String,
+    val accessLogs: ImmutableList<String> = ImmutableList(emptyList())
 )

@@ -1,4 +1,4 @@
-package com.johannjara.docvault.util
+package com.johannjara.docvault.core.util
 
 import android.Manifest
 import android.content.Context

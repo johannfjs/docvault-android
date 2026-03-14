@@ -9,13 +9,14 @@ import java.util.Date
 import java.util.Locale
 
 fun Document.toUI(): DocumentUI {
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     return DocumentUI(
         id = id,
         name = name,
         type = type.toUI(),
-        createdAtFormatted = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-            .format(Date(createdAt)),
-        path = path
+        createdAtFormatted = dateFormat.format(Date(createdAt)),
+        path = path,
+        accessLogs = accessLogs.map { dateFormat.format(Date(it)) }
     )
 }
 

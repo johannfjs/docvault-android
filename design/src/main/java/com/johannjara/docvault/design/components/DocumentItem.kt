@@ -35,14 +35,14 @@ fun DocumentItem(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = DocVaultTheme.spacing.extraSmall),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
         )
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(DocVaultTheme.spacing.medium)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -57,7 +57,7 @@ fun DocumentItem(
                 modifier = Modifier.size(48.dp)
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(DocVaultTheme.spacing.medium))
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
