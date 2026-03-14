@@ -47,8 +47,9 @@ fun WatermarkOverlay(
             val canvasWidth = size.width
             val canvasHeight = size.height
 
-            val stepX = 300f
-            val stepY = 300f
+            // Aumentamos los pasos para reducir la densidad del watermark
+            val stepX = 500f
+            val stepY = 500f
 
             for (x in -100..canvasWidth.toInt() step stepX.toInt()) {
                 for (y in -100..canvasHeight.toInt() step stepY.toInt()) {

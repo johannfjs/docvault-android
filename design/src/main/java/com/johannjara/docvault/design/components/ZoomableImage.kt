@@ -1,5 +1,6 @@
 package com.johannjara.docvault.design.components
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.gestures.detectTransformGestures
@@ -19,6 +20,7 @@ sealed interface ZoomableImageModel {
     data class Url(val url: String) : ZoomableImageModel
     data class LocalUri(val uri: Uri) : ZoomableImageModel
     data class Resource(@DrawableRes val resId: Int) : ZoomableImageModel
+    data class BitmapData(val bitmap: Bitmap) : ZoomableImageModel
 }
 
 @Composable
@@ -35,6 +37,7 @@ fun ZoomableImage(
         is ZoomableImageModel.Url -> model.url
         is ZoomableImageModel.LocalUri -> model.uri
         is ZoomableImageModel.Resource -> model.resId
+        is ZoomableImageModel.BitmapData -> model.bitmap
     }
 
     Box(
