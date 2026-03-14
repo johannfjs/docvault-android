@@ -20,16 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.johannjara.docvault.R
+import com.johannjara.docvault.core.util.PermissionUtils
 import com.johannjara.docvault.design.components.AddDocumentFab
 import com.johannjara.docvault.design.components.DocumentFilter
 import com.johannjara.docvault.design.components.DocumentItem
 import com.johannjara.docvault.design.model.DocumentTypeUI
 import com.johannjara.docvault.design.model.DocumentUI
+import com.johannjara.docvault.design.model.ImmutableList
 import com.johannjara.docvault.design.theme.DocVaultTheme
-import com.johannjara.docvault.util.PermissionUtils
+import com.johannjara.docvault.design.theme.LocalSpacing
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -178,9 +179,10 @@ private fun DocumentList(
     documents: List<DocumentUI>,
     onDocumentClick: (String) -> Unit
 ) {
+    val spacing = LocalSpacing.current
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(spacing.medium)
     ) {
         items(
             items = documents,
@@ -201,8 +203,22 @@ private fun MainScreenPreview() {
         MainScreen(
             state = MainState(
                 documents = listOf(
-                    DocumentUI("1", "Documento 1", DocumentTypeUI.PDF, "10/10/2023", ""),
-                    DocumentUI("2", "Imagen 1", DocumentTypeUI.IMAGE, "11/10/2023", "")
+                    DocumentUI(
+                        id = "1",
+                        name = "Documento 1",
+                        type = DocumentTypeUI.PDF,
+                        createdAtFormatted = "10/10/2023",
+                        path = "",
+                        accessLogs = ImmutableList(emptyList())
+                    ),
+                    DocumentUI(
+                        id = "2",
+                        name = "Imagen 1",
+                        type = DocumentTypeUI.IMAGE,
+                        createdAtFormatted = "11/10/2023",
+                        path = "",
+                        accessLogs = ImmutableList(emptyList())
+                    )
                 )
             ),
             onTypeFilterSelected = {},

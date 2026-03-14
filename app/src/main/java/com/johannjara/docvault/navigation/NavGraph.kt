@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.johannjara.docvault.ui.detail.DetailScreen
+import com.johannjara.docvault.ui.detail.DocumentDetailViewModel
 import com.johannjara.docvault.ui.main.MainScreen
 import com.johannjara.docvault.ui.main.MainViewModel
 import kotlinx.serialization.Serializable
@@ -49,13 +50,22 @@ fun AppNavHost(
                     )
                 },
                 onDocumentClick = { documentId ->
-                    navController.navigate(DetailRoute(documentId))
+                    navController.navigate(DetailRoute(documentId = documentId))
                 }
             )
         }
         composable<DetailRoute> { backStackEntry ->
             val detail: DetailRoute = backStackEntry.toRoute()
-            DetailScreen(documentId = detail.documentId)
+            val viewModel: DocumentDetailViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+
+            DetailScreen(
+                documentId = detail.documentId,
+                uiState = uiState,
+                onBackClick = { navController.popBackStack() },
+                onLoadDocument = viewModel::loadDocument,
+                onPermissionDenied = viewModel::onLocationPermissionDenied
+            )
         }
     }
 }
