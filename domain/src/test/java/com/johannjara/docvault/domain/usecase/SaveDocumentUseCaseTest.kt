@@ -12,14 +12,20 @@ import org.junit.Test
 class SaveDocumentUseCaseTest {
 
     private val repository = mockk<DocumentRepository>()
-    private val useCase = SaveDocumentUseCase(repository)
+    private val useCase = SaveDocumentUseCase(repository = repository)
 
     @Test
     fun `invoke should call repository saveDocument`() = runBlocking {
-        val document = Document("1", "test.pdf", "/path", DocumentType.PDF, 123L)
-        coEvery { repository.saveDocument(document) } returns Unit
+        val document = Document(
+            id = "1",
+            name = "test.pdf",
+            path = "/path",
+            type = DocumentType.PDF,
+            createdAt = 123L
+        )
+        coEvery { repository.saveDocument(document = document) } returns Unit
 
-        useCase(document)
+        useCase(document = document)
 
         coVerify { repository.saveDocument(document) }
     }

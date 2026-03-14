@@ -8,4 +8,5 @@ interface DocumentRepository {
     fun getDocuments(type: DocumentType? = null): Flow<List<Document>>
     suspend fun saveDocument(document: Document)
     suspend fun getDocumentById(id: String): Document?
+    suspend fun getDocumentContent(path: String): Result<ByteArray>
 }
