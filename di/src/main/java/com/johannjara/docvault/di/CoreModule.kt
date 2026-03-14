@@ -27,7 +27,7 @@ object CoreModule {
     @Provides
     @Singleton
     fun provideFileEncryptor(@ApplicationContext context: Context): FileEncryptor {
-        return FileEncryptorImpl(context)
+        return FileEncryptorImpl(context = context)
     }
 
     @Provides
@@ -37,12 +37,16 @@ object CoreModule {
         fileEncryptor: FileEncryptor,
         dispatcher: CoroutineDispatcher
     ): FileStorageHelper {
-        return FileStorageHelperImpl(context, fileEncryptor, dispatcher)
+        return FileStorageHelperImpl(
+            context = context,
+            fileEncryptor = fileEncryptor,
+            dispatcher = dispatcher
+        )
     }
 
     @Provides
     @Singleton
     fun provideLocationProvider(@ApplicationContext context: Context): LocationProvider {
-        return LocationProviderImpl(context)
+        return LocationProviderImpl(context = context)
     }
 }

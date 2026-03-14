@@ -17,6 +17,6 @@ object SecurityModule {
     @Provides
     @Singleton
     fun provideBiometricAuthenticator(@ApplicationContext context: Context): BiometricAuthenticator {
-        return BiometricAuthenticatorImpl(context)
+        return BiometricAuthenticatorImpl(context = context)
     }
 }
