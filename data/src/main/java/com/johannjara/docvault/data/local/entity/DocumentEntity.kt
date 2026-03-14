@@ -12,7 +12,6 @@ data class DocumentEntity(
     val path: String,
     val type: String,
     val createdAt: Long,
-    val locationName: String?,
     val accessLogs: List<Long>
 ) {
     fun toDomain() = Document(
@@ -21,7 +20,6 @@ data class DocumentEntity(
         path = path,
         type = DocumentType.valueOf(type),
         createdAt = createdAt,
-        locationName = locationName,
         accessLogs = accessLogs
     )
 
@@ -32,7 +30,6 @@ data class DocumentEntity(
             path = document.path,
             type = document.type.name,
             createdAt = document.createdAt,
-            locationName = document.locationName,
             accessLogs = document.accessLogs
         )
     }
