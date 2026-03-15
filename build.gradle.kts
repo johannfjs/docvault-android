@@ -1,6 +1,5 @@
 import java.util.Properties
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
@@ -28,7 +27,7 @@ sonar {
         property("sonar.token", localProperties.getProperty("sonar.token") ?: "")
         property("sonar.sourceEncoding", "UTF-8")
 
-        property("sonar.exclusions", "**/R.class, **/BuildConfig.*, **/Manifest*.*, **/*Test*.*, android/**/*.*, **/di/**, **/*Composable*.*, **/*Screen*.*, **/*Activity*.*, **/*Navigation*.*, **/*NavGraph*.*")
+        property("sonar.coverage.exclusions", "**/R.class, **/BuildConfig.*, **/Manifest*.*, android/**/*.*, **/di/**, **/*Composable*.*, **/*Screen*.*, **/*Activity*.*, **/*Navigation*.*, **/*NavGraph*.*")
     }
 }
 
@@ -39,13 +38,21 @@ subprojects {
             isSkipProject = true
         } else {
             properties {
-                property("sonar.sources", "src/main/java")
-                if (file("src/test/java").exists()) {
-                    property("sonar.tests", "src/test/java")
-                }
-                property("sonar.java.binaries", "build/intermediates/javac/debug/classes,build/tmp/kotlin-classes/debug,build/classes/kotlin/main")
-                property("sonar.junit.reportPaths", "build/test-results/testDebugUnitTest,build/test-results/test")
-                property("sonar.coverage.jacoco.xmlReportPaths", "${project.layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
+                val sources = mutableListOf<String>()
+                if (file("src/main/java").exists()) sources.add("src/main/java")
+                if (file("src/main/kotlin").exists()) sources.add("src/main/kotlin")
+                if (sources.isNotEmpty()) property("sonar.sources", sources.joinToString(","))
+
+                val tests = mutableListOf<String>()
+                if (file("src/test/java").exists()) tests.add("src/test/java")
+                if (file("src/test/kotlin").exists()) tests.add("src/test/kotlin")
+                if (tests.isNotEmpty()) property("sonar.tests", tests.joinToString(","))
+
+                property("sonar.java.binaries", "build/classes/kotlin/main,build/classes/java/main,build/intermediates/javac/debug/classes,build/tmp/kotlin-classes/debug,bin")
+                
+                property("sonar.junit.reportPaths", "build/test-results/test,build/test-results/testDebugUnitTest")
+
+                property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
             }
         }
     }

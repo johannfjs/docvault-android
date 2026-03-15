@@ -7,6 +7,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 
 class RegisterDocumentAccessUseCaseTest {
@@ -39,7 +40,13 @@ class RegisterDocumentAccessUseCaseTest {
         }
     }
 
-    private infix fun <T> T.shouldBeEqualTo(expected: T) {
-        assert(this == expected) { "Expected $expected but was $this" }
+    @Test
+    fun `invoke should do nothing when document not found`() = runTest {
+        val documentId = "non-existent"
+        coEvery { repository.getDocumentById(documentId) } returns null
+
+        registerDocumentAccessUseCase(documentId)
+
+        coVerify(exactly = 0) { repository.saveDocument(any()) }
     }
 }

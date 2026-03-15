@@ -5,6 +5,10 @@ plugins {
 
 apply(from = "../jacoco.gradle.kts")
 
+tasks.named<Test>("test") {
+    finalizedBy("jacocoTestReport")
+}
+
 kotlin {
     jvmToolchain(11)
 }
