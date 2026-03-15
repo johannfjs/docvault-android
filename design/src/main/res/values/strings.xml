@@ -1,0 +1,13 @@
+<resources>
+    <string name="add_document_content_description">Agregar documento</string>
+    <string name="add_document_camera">Cámara</string>
+    <string name="add_document_gallery">Galería</string>
+    <string name="add_document_pdf">Documento (PDF)</string>
+    <string name="filter_all">Todos</string>
+    <string name="filter_pdfs">PDFs</string>
+    <string name="filter_images">Imágenes</string>
+
+    <string name="filter_document_all">Todos</string>
+    <string name="filter_document_pdfs">PDFs</string>
+    <string name="filter_document_images">Imágenes</string>
+</resources>
