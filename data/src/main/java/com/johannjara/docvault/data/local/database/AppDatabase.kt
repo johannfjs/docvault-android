@@ -9,7 +9,7 @@ import com.johannjara.docvault.data.local.converter.Converters
 import com.johannjara.docvault.data.local.dao.DocumentDao
 import com.johannjara.docvault.data.local.entity.DocumentEntity
 
-@Database(entities = [DocumentEntity::class], version = 2)
+@Database(entities = [DocumentEntity::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun documentDao(): DocumentDao

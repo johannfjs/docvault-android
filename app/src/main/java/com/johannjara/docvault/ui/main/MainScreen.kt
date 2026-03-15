@@ -36,7 +36,7 @@ import java.io.File
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    state: MainState,
+    state: MainUiState,
     onTypeFilterSelected: (DocumentTypeUI?) -> Unit,
     onAddDocument: (Uri, String, DocumentTypeUI) -> Unit,
     onDocumentClick: (String) -> Unit
@@ -141,7 +141,7 @@ fun MainScreen(
 @Composable
 private fun MainContent(
     modifier: Modifier = Modifier,
-    state: MainState,
+    state: MainUiState,
     onTypeFilterSelected: (DocumentTypeUI?) -> Unit,
     onDocumentClick: (String) -> Unit
 ) {
@@ -201,7 +201,7 @@ private fun DocumentList(
 private fun MainScreenPreview() {
     DocVaultTheme {
         MainScreen(
-            state = MainState(
+            state = MainUiState(
                 documents = listOf(
                     DocumentUI(
                         id = "1",
@@ -233,7 +233,7 @@ private fun MainScreenPreview() {
 private fun MainScreenLoadingPreview() {
     DocVaultTheme {
         MainScreen(
-            state = MainState(isLoading = true),
+            state = MainUiState(isLoading = true),
             onTypeFilterSelected = {},
             onAddDocument = { _, _, _ -> },
             onDocumentClick = {}

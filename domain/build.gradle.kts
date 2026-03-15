@@ -1,5 +1,12 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    jacoco
+}
+
+apply(from = "../jacoco.gradle.kts")
+
+tasks.named<Test>("test") {
+    finalizedBy("jacocoTestReport")
 }
 
 kotlin {

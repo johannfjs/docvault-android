@@ -6,7 +6,8 @@ import com.johannjara.docvault.domain.repository.DocumentRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldThrow
 import org.junit.Test
 
 class SaveDocumentUseCaseTest {
@@ -15,7 +16,7 @@ class SaveDocumentUseCaseTest {
     private val useCase = SaveDocumentUseCase(repository = repository)
 
     @Test
-    fun `invoke should call repository saveDocument`() = runBlocking {
+    fun `invoke should call repository saveDocument`() = runTest {
         val document = Document(
             id = "1",
             name = "test.pdf",
@@ -28,5 +29,21 @@ class SaveDocumentUseCaseTest {
         useCase(document = document)
 
         coVerify { repository.saveDocument(document) }
+    }
+
+    @Test
+    fun `invoke should propagate exception from repository`() = runTest {
+        val document = Document(
+            id = "1",
+            name = "test.pdf",
+            path = "/path",
+            type = DocumentType.PDF,
+            createdAt = 123L
+        )
+        coEvery { repository.saveDocument(any()) } throws RuntimeException("Save failed")
+
+        val action = suspend { useCase(document) }
+
+        action shouldThrow RuntimeException::class
     }
 }

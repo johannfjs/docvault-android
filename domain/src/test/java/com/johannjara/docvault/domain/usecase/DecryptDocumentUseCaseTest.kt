@@ -2,6 +2,7 @@ package com.johannjara.docvault.domain.usecase
 
 import com.johannjara.docvault.domain.repository.DocumentRepository
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -22,6 +23,7 @@ class DecryptDocumentUseCaseTest {
 
         result.isSuccess shouldBeEqualTo true
         result.getOrNull() shouldBeEqualTo expectedData
+        coVerify { repository.getDocumentContent(path) }
     }
 
     @Test
@@ -34,5 +36,6 @@ class DecryptDocumentUseCaseTest {
 
         result.isFailure shouldBeEqualTo true
         result.exceptionOrNull() shouldBeEqualTo expectedException
+        coVerify { repository.getDocumentContent(path) }
     }
 }

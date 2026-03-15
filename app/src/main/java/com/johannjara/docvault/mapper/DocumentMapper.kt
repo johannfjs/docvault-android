@@ -2,6 +2,7 @@ package com.johannjara.docvault.mapper
 
 import com.johannjara.docvault.design.model.DocumentTypeUI
 import com.johannjara.docvault.design.model.DocumentUI
+import com.johannjara.docvault.design.model.ImmutableList
 import com.johannjara.docvault.domain.model.Document
 import com.johannjara.docvault.domain.model.DocumentType
 import java.text.SimpleDateFormat
@@ -16,7 +17,7 @@ fun Document.toUI(): DocumentUI {
         type = type.toUI(),
         createdAtFormatted = dateFormat.format(Date(createdAt)),
         path = path,
-        accessLogs = accessLogs.map { dateFormat.format(Date(it)) }
+        accessLogs = ImmutableList(accessLogs.map { dateFormat.format(Date(it)) })
     )
 }
 

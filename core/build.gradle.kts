@@ -3,7 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    jacoco
 }
+
+apply(from = "../jacoco.gradle.kts")
 
 android {
     namespace = "com.johannjara.docvault.core"
