@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    jacoco
 }
+
+apply(from = "../jacoco.gradle.kts")
 
 kotlin {
     jvmToolchain(11)

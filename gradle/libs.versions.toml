@@ -24,6 +24,7 @@ tink = "1.15.0"
 robolectric = "4.14.1"
 serialization = "1.7.3"
 navigationCompose = "2.8.4"
+sonarqube = "7.2.3.7755"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,7 +62,6 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "coroutines" }
 kluent = { group = "org.amshove.kluent", name = "kluent", version.ref = "kluent" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
-androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 tink-android = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
@@ -75,3 +75,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
