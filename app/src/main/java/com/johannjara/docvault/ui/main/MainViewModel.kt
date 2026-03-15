@@ -2,11 +2,9 @@ package com.johannjara.docvault.ui.main
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.johannjara.docvault.design.model.DocumentTypeUI
-import com.johannjara.docvault.design.model.DocumentUI
 import com.johannjara.docvault.domain.model.Document
 import com.johannjara.docvault.domain.usecase.GetDocumentsUseCase
 import com.johannjara.docvault.domain.usecase.SaveDocumentUseCase
@@ -24,21 +22,14 @@ import java.io.FileOutputStream
 import java.util.UUID
 import javax.inject.Inject
 
-@Immutable
-data class MainState(
-    val documents: List<DocumentUI> = emptyList(),
-    val selectedType: DocumentTypeUI? = null,
-    val isLoading: Boolean = false
-)
-
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getDocumentsUseCase: GetDocumentsUseCase,
     private val saveDocumentUseCase: SaveDocumentUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(MainState())
-    val state: StateFlow<MainState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(MainUiState())
+    val state: StateFlow<MainUiState> = _state.asStateFlow()
 
     init {
         loadDocuments()
